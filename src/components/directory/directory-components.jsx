@@ -26,7 +26,7 @@ class Directory extends React.Component {
                         linkUrl: 'shop/sneakers'
                     },
                     {
-                        title: 'womens',
+                        title: 'mujer',
                         imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
                         size: 'large',
                         id: 4,
@@ -34,7 +34,7 @@ class Directory extends React.Component {
                         linkUrl: 'shop/womens'
                     },
                     {
-                        title: 'mens',
+                        title: 'hombre',
                         imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
                         size: 'large',
                         id: 5,
