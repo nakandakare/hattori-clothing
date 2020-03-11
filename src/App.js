@@ -24,7 +24,7 @@ class App extends React.Component {
       if(userAuth){
         const userRef = await createUserProfileDocument(userAuth);
         
-        userRef.onSnapshot(snapShot => { //onSnapShot = listening to userRef (listening to anychange) but set the first date 
+        userRef.onSnapshot(snapShot => { //onSnapShot = listening to userRef (listening to anychange from database) but set the first date 
           this.setState({ 
             currentUser: {
               id: snapShot.id,
