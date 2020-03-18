@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/samurai.svg';
 import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
+import {selectCurrentUser} from '../../redux/user/user.selectors';
+import {selectCartHidden} from '../../redux/cart/cart.selectors';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
@@ -33,9 +35,9 @@ const Header = ({ currentUser, hidden }) => (
     </div>
 );
 
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({ // it same to user = state.user, where give us user: {currentUser}
-    currentUser,
-    hidden
+const mapStateToProps = (state /*{ user: { currentUser }, cart: { hidden } }*/) => ({ //here we can use structuredSelector
+    currentUser: selectCurrentUser(state),
+    hidden: selectCartHidden(state)
 })
 
 export default connect(mapStateToProps)(Header); //give us back another header component with reducer state.
