@@ -12,7 +12,7 @@ const config = {
     appId: "1:448071144188:web:876a89d7e9239f56dcbd79"
 };
 
-export const createUserProfileDocument = async (userAuth, additionalData) => {
+export const createUserProfileDocument =    async (userAuth, additionalData) => {
     if(!userAuth){
         return;
     }
