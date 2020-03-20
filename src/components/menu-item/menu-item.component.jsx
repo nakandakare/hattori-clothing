@@ -2,7 +2,7 @@ import React from 'react';
 import './menu-item.styles.scss'
 import { withRouter } from 'react-router-dom';
 
-const MenuItem = ({title, imageUrl, size, history, linkUrl, match}) => ( //match e history viene del react-router.
+const MenuItem = ({title, imageUrl, size, linkUrl, match, history}) => ( //match and history react-router withRouter.
     <div className={`${size} menu-item`} onClick={() => history.push(`${match.url}${linkUrl}`)}>
         <div 
             className='background-image' 
@@ -14,4 +14,4 @@ const MenuItem = ({title, imageUrl, size, history, linkUrl, match}) => ( //match
     </div>
 );
 
-export default withRouter(MenuItem);
+export default withRouter(MenuItem); //withRouter Sirve para reemplazar al <Route> </Route> asi se puede utilizar history.push.
