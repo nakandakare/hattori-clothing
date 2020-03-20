@@ -18,11 +18,12 @@ class App extends React.Component {
     const {setCurrentUserFunc} = this.props;
     
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => { // onAuthStateChanged = Siempre escucha si hay un usuario
+      
       if(userAuth){
         const userRef = await createUserProfileDocument(userAuth);
         
         userRef.onSnapshot(snapShot => { //onSnapShot = listening to userRef (listening to anychange from database) but set the first date 
-            setCurrentUserFunc({
+          setCurrentUserFunc({
               id: snapShot.id,
               ...snapShot.data()
           })
