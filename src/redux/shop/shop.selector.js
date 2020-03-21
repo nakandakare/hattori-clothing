@@ -10,13 +10,13 @@ export const selectCollections = createSelector(
 //change shopData object to array
 export const selectCollectionsForPreview = createSelector (
     [selectCollections],
-    collections => Object.keys(collections).map(key => collections[key])
+    collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 )
 
 //return the same collection item of URL param
 export const selectCollection = collectionUrlParam => createSelector(
     [selectCollections],
-    collections => collections[collectionUrlParam]
+    collections => collections ? collections[collectionUrlParam] : null
                     /*collections.find(collection => collection.id === COLLECTION_ID_MAP[collectionUrlParam])*/
 )
 
