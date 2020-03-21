@@ -3,11 +3,11 @@ import './collection-preview.styles.scss'
 import CollectionItem from '../collection-item/collection-item.component'
 import { withRouter } from 'react-router-dom';
 
-const CollectionPreview = ({title, items,routeName, history, match}) => {
+const CollectionPreview = ({titleEsp, items,routeName, history, match}) => {
 
     return (
     <div className='collection-preview'>
-            <h1 className='title' onClick={() => history.push(`${match.url}/${routeName}`)} /*directing with withRouter*/>{title.toUpperCase()}</h1>
+            <h1 className='title' onClick={() => history.push(`${match.url}/${routeName}`)} /*directing with withRouter*/>{titleEsp.toUpperCase()}</h1>
         <div className='preview'>
         {
             items

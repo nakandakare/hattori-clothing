@@ -12,12 +12,12 @@ const config = {
     appId: "1:448071144188:web:876a89d7e9239f56dcbd79"
 };
 
-export const createUserProfileDocument =    async (userAuth, additionalData) => {
+export const createUserProfileDocument = async (userAuth, additionalData) => {
     if(!userAuth){
         return;
     }
 
-    const userRef = firestore.doc(`users/${userAuth.uid}`);
+    const userRef = firestore.doc(`users/${userAuth.uid}`); //QueryReference to database.
     const snapShot = await userRef.get();
 
     if(!snapShot.exists){
@@ -38,6 +38,37 @@ export const createUserProfileDocument =    async (userAuth, additionalData) => 
 
     return userRef;
 }
+
+/*export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+    
+    const batch = firestore.batch();
+    objectToAdd.forEach(obj => {
+        const newDocRef = collectionRef.doc();
+        batch.set(newDocRef, obj);
+    })
+
+    return await batch.commit();
+}
+
+export const convertCollectionSnapshotToMap = (collection) => {
+    const transformedCollection = collection.docs.map( doc => {
+        const {title, items} = doc.data()
+
+        return {
+            routeName: encodeURI(title.toLowerCase()),
+            id: doc.id,
+            title,
+            items
+        }
+    }
+    );
+
+    return transformedCollection.reduce((accumulator, collection) => {
+        accumulator[collection.routeName.toLowerCase()] = collection;
+        return accumulator;
+    },{})
+}*/
 
 firebase.initializeApp(config);
 
