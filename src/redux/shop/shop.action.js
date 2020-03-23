@@ -15,6 +15,8 @@ export const fetchCollectionsFailure = errorMessage => ({
     payload: errorMessage
 })
 
+
+//this code is mean to be in saga becausae it async.
 export const fetchCollectionsStartAsync = () => { //thunk middleware = allow us dispatch.
     return dispatch => {
         const collectionRef = firestore.collection('collections');
