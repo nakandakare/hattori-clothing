@@ -1,4 +1,4 @@
-import {takeLatest,call, put} from 'redux-saga/effects';
+import {takeLatest,call, put, all} from 'redux-saga/effects';
 import ShopActionTypes from './shop.types';
 import {firestore, convertCollectionSnapshotToMap} from '../../firebase/firebase.utils';
 import {
@@ -24,9 +24,14 @@ export function* fetchCollectionsAsync() { //and yield makes easy to test with .
         ).catch(error => dispatch(fetchCollectionsFailure(error.message)))*/
 }
 
+//WATCHER
 export function* fetchCollectionsStart(){
     yield takeLatest( //call non blocking call, if there is another takeEvery running in the app , can cancel previous one bcs of yield. 
         ShopActionTypes.FETCH_COLLECTIONS_START, 
         fetchCollectionsAsync
         );
+}
+
+export function* shopSagas(){
+    yield all([call(fetchCollectionsStart)])
 }

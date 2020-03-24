@@ -1,10 +1,9 @@
 import React from 'react';
 import './sign-up.styles.scss';
-
+import { connect } from 'react-redux';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { signUpStart } from '../../redux/user/user.actions'
 
 class SignUp extends React.Component {
     constructor() {
@@ -21,33 +20,27 @@ class SignUp extends React.Component {
     handleSubmit = async event => {
         event.preventDefault();
 
+        const { signUpStart } = this.props;
         const { displayName, email, password, confirmPassword } = this.state;
 
-        if(password !== confirmPassword){
+        if (password !== confirmPassword) {
             alert("La contraseña no coincide");
             return;
         }
 
-        try{
-            const {user} = await auth.createUserWithEmailAndPassword(email, password);
-            
-            await createUserProfileDocument(user, {displayName});
-            
-            this.setState({
-                    displayName: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-            })
+        signUpStart(displayName, email, password); //redux-saga
 
-        }catch(e){
-            console.log(e.message);
-        }
+        this.setState({
+            displayName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        })
     }
 
     handleChange = event => {
-        const {name, value} = event.target;
-        this.setState({[name]: value});
+        const { name, value } = event.target;
+        this.setState({ [name]: value });
     }
 
     render() {
@@ -100,4 +93,8 @@ class SignUp extends React.Component {
     }
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+    signUpStart: (displayName, email, password, confirmPassword) => dispatch(signUpStart({ displayName, email, password, confirmPassword }))
+})
+
+export default connect(null, mapDispatchToProps)(SignUp);

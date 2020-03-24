@@ -2,14 +2,14 @@ import React from 'react';
 import './header.styles.scss';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/samurai.svg';
-import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import {selectCartHidden} from '../../redux/cart/cart.selectors';
+import {signOutStart} from '../../redux/user/user.actions';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser, hidden, signOutStart}) => (
     <div className='header'>
         <Link to='/' className='logo-container'>
             <Logo className='logo' />
@@ -24,7 +24,7 @@ const Header = ({ currentUser, hidden }) => (
             <div>
                 {
                     currentUser ?
-                        <div className='option' onClick={() => auth.signOut()}>SALIR</div>
+                        <div className='option' onClick={signOutStart}>SALIR</div>
                         :
                         <Link className='option' to='/signin'>INGRESAR</Link>
                 }
@@ -48,4 +48,8 @@ const mapStateToProps = (state /*{ user: { currentUser }, cart: { hidden } }*/) 
     hidden: selectCartHidden(state)
 })
 
-export default connect(mapStateToProps)(Header); //give us back another header component with reducer state.
+const mapDispatchToProps = dispatch => ({
+    signOutStart: () => dispatch(signOutStart())
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header); //give us back another header component with reducer state.

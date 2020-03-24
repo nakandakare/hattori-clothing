@@ -72,6 +72,14 @@ export const convertCollectionSnapshotToMap = (collection) => {
     },{})
 }
 
+export const getCurrentUser = () => { //promise because SAGA use promise with yield.
+    return new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(userAuth => {
+            unsubscribe();
+            resolve(userAuth);
+        }, reject)
+    })
+}
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();

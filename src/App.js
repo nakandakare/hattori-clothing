@@ -7,32 +7,19 @@ import Header from './components/header/header.component';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 //import {auth, createUserProfileDocument, /*addCollectionAndDocuments*/} from './firebase/firebase.utils';
 import {connect} from 'react-redux';
-import {selectCurrentUser} from './redux/user/user.selectors';
+import {selectCurrentUser, selectIsFetching} from './redux/user/user.selectors';
 import CheckoutPage from './pages/checkout/checkout.component';
+import { checkUserSession} from './redux/user/user.actions';
+import WithSpinner from './components/with-spinner/with-spinner.component';
 //import {selectCollectionsForPreview} from './redux/shop/shop.selector';
 
+const SignInAndSignUpWithSpinner = WithSpinner(SignInAndSignUp);
 
 class App extends React.Component {
   
   componentDidMount() {
-    //const {setCurrentUserFunc} = this.props;
-    
-    //moves to redux saga
-    /*this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => { // onAuthStateChanged = Siempre escucha si hay un usuario
-      
-      if(userAuth){
-        const userRef = await createUserProfileDocument(userAuth);
-        
-        userRef.onSnapshot(snapShot => { //onSnapShot = listening to userRef (listening to anychange from database) but set the first date 
-          setCurrentUserFunc({
-              id: snapShot.id,
-              ...snapShot.data()
-          })
-        });
-      } 
-      setCurrentUserFunc(userAuth); //currentUser to null
-      
-    })*/
+    const { checkUserSession} = this.props;
+    checkUserSession()
   }
 
   componentWillUnmount() {
@@ -47,15 +34,20 @@ class App extends React.Component {
         <Route exact path='/' component={HomePage} />
         <Route path='/shop' component={ShopPage} />
         <Route exact path='/checkout' component={CheckoutPage} />
-        <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to ='/' />) : (<SignInAndSignUp />)} />
+        <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUpWithSpinner isLoading={this.props.isFetching}/>)} />
       </Switch>
     </div>
   )
   };
 }
 
-const mapStateToProps = (state) => ({ // user = state.user
-  currentUser: selectCurrentUser(state)
+const mapStateToProps = (state) => ({ 
+  currentUser: selectCurrentUser(state),
+  isFetching: selectIsFetching(state)
 })
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: () => dispatch(checkUserSession())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
