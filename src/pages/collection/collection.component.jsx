@@ -18,7 +18,7 @@ const CollectionPage = ({ collection }) /*match is Route library object.*/ => {
     )
 }
 
-const mapStateToProps = (state, ownProps) /*ownProps = url params*/ => ({
+const mapStateToProps = (state, ownProps) /*ownProps = props del componente osea url params*/ => ({
     collection: selectCollection(ownProps.match.params.collectionId)(state)
 })
 

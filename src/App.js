@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import './App.css';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import HomePage from './pages/homepage/homepage.component';
@@ -15,18 +15,12 @@ import WithSpinner from './components/with-spinner/with-spinner.component';
 
 const SignInAndSignUpWithSpinner = WithSpinner(SignInAndSignUp);
 
-class App extends React.Component {
+const App = ({ checkUserSession, currentUser, isFetching }) =>{
   
-  componentDidMount() {
-    const { checkUserSession} = this.props;
-    checkUserSession()
-  }
+  useEffect(() => {
+    checkUserSession();
+  }, [checkUserSession])
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  render() {
   return(
     <div>
       <Header/>
@@ -34,12 +28,12 @@ class App extends React.Component {
         <Route exact path='/' component={HomePage} />
         <Route path='/shop' component={ShopPage} />
         <Route exact path='/checkout' component={CheckoutPage} />
-        <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUpWithSpinner isLoading={this.props.isFetching}/>)} />
+        <Route exact path='/signin' render={() => currentUser ? (<Redirect to='/' />) : (<SignInAndSignUpWithSpinner isLoading={isFetching}/>)} />
       </Switch>
     </div>
   )
   };
-}
+
 
 const mapStateToProps = (state) => ({ 
   currentUser: selectCurrentUser(state),
